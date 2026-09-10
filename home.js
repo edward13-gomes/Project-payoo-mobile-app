@@ -122,4 +122,9 @@ document.getElementById('bonus-button')
  handleToggle('get-bonus-parent');
  handleButtonToggle('bonus-button')
 })
+document.getElementById('pay-button')
+.addEventListener('click',function(){
+ handleToggle('pay-bill-parent');
+ handleButtonToggle('pay-button')
+})
 
