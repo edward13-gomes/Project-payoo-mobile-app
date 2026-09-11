@@ -1,5 +1,8 @@
 const validPin=1234;
 
+const transactionData=[];
+
+
 // function to get input values
 function getInputValueNumber(id){
     const inputField =document.getElementById(id);
@@ -60,6 +63,12 @@ document.getElementById('add-money-btn')
     const bank=getInputValue('bank');
     const accountNumber=getInputValue('account-number');
     const amount=getInputValueNumber('add-amount')
+
+    if(amount<=0){
+        alert('invaild amount')
+        return;
+    }
+
     const pin=getInputValueNumber('add-pin');
 
     const availableBalance=getInnerText('available-balance');
@@ -77,6 +86,13 @@ document.getElementById('add-money-btn')
     const totalNewAvailableBalance=amount+availableBalance;
 
     setInnerText(totalNewAvailableBalance);
+
+    const data={
+        name:"Add Money",
+       date: new Date().toLocaleTimeString(),
+    }
+
+    transactionData.push(data)
     
 })
 // cashout money feature
@@ -90,9 +106,49 @@ document.getElementById('withdraw-btn')
 
     const availableBalance=getInnerText('available-balance');
 
+    if(amount<=0 || amount>availableBalance){
+        alert('invalid amount');
+        return;
+    }
+
     const totalNewAvailableBalance=availableBalance-amount;
 
    setInnerText(totalNewAvailableBalance);
+
+   const data={
+        name:"Cash Out",
+       date: new Date().toLocaleTimeString(),
+    }
+
+    transactionData.push(data)
+})
+
+document.getElementById('transactions-button')
+.addEventListener('click',function(){
+    const transactionContainer=document.getElementById('transaction-container')
+    transactionContainer.innerText="";
+
+    for(const data of transactionData){
+        const div =document.createElement('div')
+        div.innerHTML=`
+        <div class=" bg-white rounded-xl p-3 flex justify-between items-center mt-3">
+              <div class="flex items-center">
+                <div class=" p-3 rounded-full bg-[#F4F5F7]">
+                   <img src="assets/wallet1.png" alt="" class="mx-auto">
+                </div>
+                <div class="ml-3">
+                  <h1>${data.name}</h1>
+                  <p>${data.date}</p>
+                </div>
+              </div>
+             
+              
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+             </div>
+        `
+        transactionContainer.appendChild(div);
+        
+    }
 })
 
 
@@ -122,9 +178,14 @@ document.getElementById('bonus-button')
  handleToggle('get-bonus-parent');
  handleButtonToggle('bonus-button')
 })
-document.getElementById('pay-button')
+document.getElementById('bill-button')
 .addEventListener('click',function(){
  handleToggle('pay-bill-parent');
- handleButtonToggle('pay-button')
+ handleButtonToggle('bill-button')
+})
+document.getElementById('transactions-button')
+.addEventListener('click',function(){
+ handleToggle('transactions-parent');
+ handleButtonToggle('transactions-button')
 })
 
